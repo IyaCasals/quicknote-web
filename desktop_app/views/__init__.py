@@ -1,0 +1,1 @@
+"""CustomTkinter views for QuickNote."""

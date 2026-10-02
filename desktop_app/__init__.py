@@ -1,0 +1,1 @@
+"""QuickNote desktop application package."""
