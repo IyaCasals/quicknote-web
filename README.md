@@ -23,7 +23,7 @@ Set these values in `.env.local`:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
 Open `http://localhost:3000`.
@@ -49,7 +49,7 @@ It also enables RLS, creates user-owned CRUD policies, maintains `notes.updated_
 2. Import the GitHub repository into the new Vercel account.
 3. Add these production environment variables:
    - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 4. Deploy the production build.
 
 ## Tests and Checks
