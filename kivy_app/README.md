@@ -1,15 +1,33 @@
 # QuickNote Kivy Mobile App
 
-This is a separate Python/Kivy mobile client for QuickNote. It connects to the same Supabase project used by the hosted web app.
+This is the thesis-compliant QuickNote application. It is a local
+Python/Kivy app that stores data in SQLite through Python's built-in
+`sqlite3` connector.
+
+## Thesis Tech Stack
+
+- Programming Language: Python
+- GUI Framework: Kivy
+- Database: SQLite
+- Database Connector Library: sqlite3
+- IDE/Editor: VSCode or PyCharm
+- Version Control: Git and GitHub
+- Other Libraries: Pillow, reportlab
 
 ## Features
 
-- Login with email or username.
+- Local register/login with username or email.
+- Password hashing with PBKDF2.
+- Starter categories: School, Personal, Ideas, Reminders.
+- Dashboard with totals, pinned notes, recent notes, and category summaries.
 - Register with username, email, and password.
 - View notes in a mobile list.
 - Create, edit, delete, pin, and prioritize notes.
-- Assign categories.
+- Create, rename, and delete categories.
+- Category deletion keeps notes and marks them as Uncategorized.
 - Search notes by title, content, or category.
+- Export a PDF report.
+- Data persists locally in `quicknote.db`.
 
 ## Local Desktop Run
 
@@ -20,6 +38,9 @@ python -m venv .venv
 pip install -r requirements.txt
 python main.py
 ```
+
+The SQLite database is created automatically inside Kivy's application
+data directory.
 
 ## APK Build
 
@@ -37,12 +58,15 @@ The APK will be created under:
 kivy_app/bin/
 ```
 
-## Configuration
+## Testing
 
-Public Supabase frontend values are in `config.py`. Username sign-in uses the deployed Vercel API route:
+From the repository root:
 
-```text
-https://quicknote-web-two.vercel.app/api/auth/login
+```bash
+python -m pytest tests/test_kivy_store.py
 ```
 
-The service role key is never stored in this app.
+## Notes
+
+The hosted Next.js/Supabase app is kept as a separate web version. This
+Kivy app is the version aligned with the Python GUI thesis requirement.

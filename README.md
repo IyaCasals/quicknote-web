@@ -1,6 +1,40 @@
 # QuickNote
 
-QuickNote is a personal notes organization and management system. The project now contains a Vercel-ready Next.js web app backed by Supabase, plus the earlier Python desktop implementation retained as reference code for the academic OOP version.
+QuickNote is a personal notes organization and management system. The official thesis implementation is now the Python/Kivy app in `kivy_app/`, backed by a local SQLite database through `sqlite3`. The repository also keeps the Vercel-ready Next.js/Supabase web version as an extra deployed version.
+
+## Thesis Implementation
+
+Use this stack for the thesis defense:
+
+- Programming Language: Python
+- GUI Framework: Kivy
+- Database: SQLite
+- Database Connector Library: sqlite3
+- IDE/Editor: VSCode or PyCharm
+- Version Control: Git and GitHub
+- Other Libraries: Pillow, reportlab
+
+Run the thesis app locally:
+
+```bash
+cd kivy_app
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python main.py
+```
+
+The Kivy app supports local registration/login, password hashing, dashboard, note CRUD, categories, search/filtering, pinning, priorities, timestamps, reports, PDF export, and per-user data isolation.
+
+Build an APK with Buildozer from Linux or WSL Ubuntu:
+
+```bash
+cd kivy_app
+pip install buildozer
+buildozer android debug
+```
+
+The APK output will be created under `kivy_app/bin/`.
 
 ## Web App Features
 
