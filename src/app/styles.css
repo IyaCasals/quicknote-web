@@ -577,7 +577,7 @@ p {
     backdrop-filter: blur(16px) saturate(1.25);
   }
 
-  .desktop-nav-item {
+  .sidebar button.desktop-nav-item {
     display: none;
   }
 
@@ -632,6 +632,8 @@ p {
     width: 100%;
     max-height: calc(100dvh - 20px);
     padding: 16px;
+    padding-bottom: 92px;
+    overflow-y: auto;
   }
 
   .modal textarea {
@@ -639,12 +641,17 @@ p {
   }
 
   .modal-actions {
-    position: sticky;
-    bottom: -16px;
-    margin: 2px -16px -16px;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    z-index: 40;
+    margin: 0;
     border-top: 1px solid var(--line);
+    border-radius: 0 0 8px 8px;
     background: rgba(255, 255, 255, 0.82);
     padding: 12px 16px 16px;
+    box-shadow: 0 -12px 28px rgba(155, 72, 126, 0.14);
     backdrop-filter: blur(14px) saturate(1.2);
   }
 }
