@@ -535,6 +535,14 @@ function NoteEditor({
   );
   const [busy, setBusy] = useState(false);
 
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
@@ -571,56 +579,58 @@ function NoteEditor({
   return (
     <div className="modal-backdrop">
       <form className="modal" onSubmit={save}>
-        <div className="page-heading">
+        <div className="modal-header">
           <h2>{note ? "Edit Note" : "New Note"}</h2>
           <button className="ghost" type="button" onClick={onClose}>
             Cancel
           </button>
         </div>
-        <label>
-          Title
-          <input value={input.title} onChange={(event) => setInput({ ...input, title: event.target.value })} />
-        </label>
-        <label>
-          Content
-          <textarea value={input.content} onChange={(event) => setInput({ ...input, content: event.target.value })} />
-        </label>
-        <div className="form-grid">
+        <div className="modal-body">
           <label>
-            Category
-            <select
-              value={input.category_id ?? ""}
-              onChange={(event) => setInput({ ...input, category_id: event.target.value || null })}
-            >
-              <option value="">Uncategorized</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+            Title
+            <input value={input.title} onChange={(event) => setInput({ ...input, title: event.target.value })} />
           </label>
           <label>
-            Priority
-            <select
-              value={input.priority}
-              onChange={(event) => setInput({ ...input, priority: event.target.value as Priority })}
-            >
-              {priorities.map((priority) => (
-                <option key={priority} value={priority}>
-                  {priority}
-                </option>
-              ))}
-            </select>
+            Content
+            <textarea value={input.content} onChange={(event) => setInput({ ...input, content: event.target.value })} />
           </label>
-          <label className="check-row">
-            <input
-              checked={input.is_pinned}
-              type="checkbox"
-              onChange={(event) => setInput({ ...input, is_pinned: event.target.checked })}
-            />
-            Pinned
-          </label>
+          <div className="form-grid">
+            <label>
+              Category
+              <select
+                value={input.category_id ?? ""}
+                onChange={(event) => setInput({ ...input, category_id: event.target.value || null })}
+              >
+                <option value="">Uncategorized</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Priority
+              <select
+                value={input.priority}
+                onChange={(event) => setInput({ ...input, priority: event.target.value as Priority })}
+              >
+                {priorities.map((priority) => (
+                  <option key={priority} value={priority}>
+                    {priority}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="check-row">
+              <input
+                checked={input.is_pinned}
+                type="checkbox"
+                onChange={(event) => setInput({ ...input, is_pinned: event.target.checked })}
+              />
+              Pinned
+            </label>
+          </div>
         </div>
         <div className="modal-actions">
           {note && (
