@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthError, type Session, type User } from "@supabase/supabase-js";
+import { BarChart3, Folder, Home, ListTodo, Pin, type LucideIcon } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 import { filterNotes } from "@/lib/filters";
@@ -18,6 +19,14 @@ const emptyNoteInput: NoteInput = {
   priority: "Normal",
   is_pinned: false
 };
+
+const navItems: Array<{ key: ViewKey; label: string; Icon: LucideIcon }> = [
+  { key: "dashboard", label: "Dashboard", Icon: Home },
+  { key: "notes", label: "All Notes", Icon: ListTodo },
+  { key: "pinned", label: "Pinned", Icon: Pin },
+  { key: "categories", label: "Categories", Icon: Folder },
+  { key: "reports", label: "Reports", Icon: BarChart3 }
+];
 
 export default function QuickNotePage() {
   const [session, setSession] = useState<Session | null>(null);
@@ -152,21 +161,12 @@ export default function QuickNotePage() {
       </header>
 
       <aside className="sidebar">
-        <button className={activeView === "dashboard" ? "active" : ""} onClick={() => setActiveView("dashboard")}>
-          Dashboard
-        </button>
-        <button className={activeView === "notes" ? "active" : ""} onClick={() => setActiveView("notes")}>
-          All Notes
-        </button>
-        <button className={activeView === "pinned" ? "active" : ""} onClick={() => setActiveView("pinned")}>
-          Pinned
-        </button>
-        <button className={activeView === "categories" ? "active" : ""} onClick={() => setActiveView("categories")}>
-          Categories
-        </button>
-        <button className={activeView === "reports" ? "active" : ""} onClick={() => setActiveView("reports")}>
-          Reports
-        </button>
+        {navItems.map(({ key, label, Icon }) => (
+          <button className={activeView === key ? "active" : ""} key={key} onClick={() => setActiveView(key)}>
+            <Icon aria-hidden="true" size={18} strokeWidth={2.2} />
+            <span>{label}</span>
+          </button>
+        ))}
         <button className="logout" onClick={() => getSupabase().auth.signOut()}>
           Logout
         </button>
