@@ -413,7 +413,7 @@ function NotesView({
       ) : (
         <div className="note-list">
           {notes.map((note) => (
-            <NoteListItem key={note.id} note={note} onEdit={() => setEditing(note)} />
+            <NoteListItem key={note.id} note={note} onOpen={() => setEditing(note)} />
           ))}
         </div>
       )}
@@ -698,22 +698,31 @@ function Metric({ label, value }: { label: string; value: number }) {
   );
 }
 
-function NoteListItem({ note, compact = false, onEdit }: { note: Note; compact?: boolean; onEdit?: () => void }) {
-  return (
-    <article className="note-card">
+function NoteListItem({ note, onOpen }: { note: Note; compact?: boolean; onOpen?: () => void }) {
+  const body = (
+    <>
       <div>
         <h3>
           {note.is_pinned && <span aria-label="Pinned note">Pinned - </span>}
           {note.title}
         </h3>
-        {!compact && <p>{note.content || "No content"}</p>}
         <small>
           {note.categories?.name ?? "Uncategorized"} | {note.priority} | Updated {formatDate(note.updated_at)}
         </small>
       </div>
-      {onEdit && <button onClick={onEdit}>Edit</button>}
-    </article>
+      {onOpen && <span className="open-note">Open</span>}
+    </>
   );
+
+  if (onOpen) {
+    return (
+      <button className="note-card note-row" onClick={onOpen} type="button">
+        {body}
+      </button>
+    );
+  }
+
+  return <article className="note-card">{body}</article>;
 }
 
 function StatusMessage({ message, onClose }: { message: NonNullable<Message>; onClose: () => void }) {

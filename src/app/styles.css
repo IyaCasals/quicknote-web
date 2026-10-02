@@ -302,21 +302,32 @@ p {
 
 .note-list {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .note-card {
   grid-template-columns: minmax(0, 1fr) auto;
-  padding: 16px;
+  padding: 14px 16px;
 }
 
 .note-card h3 {
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
-.note-card p {
-  color: var(--muted);
-  line-height: 1.5;
+.note-row {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+}
+
+.note-row:hover {
+  border-color: rgba(37, 99, 235, 0.35);
+  background: #f8fbff;
+}
+
+.open-note {
+  color: var(--primary);
+  font-weight: 700;
 }
 
 .status {
