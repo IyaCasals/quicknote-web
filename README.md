@@ -4,7 +4,7 @@ QuickNote is a personal notes organization and management system. The project no
 
 ## Web App Features
 
-- Supabase email/password authentication.
+- Supabase username-or-email/password authentication.
 - Per-user notes and categories protected by Supabase Row Level Security.
 - Dashboard with total notes, pinned notes, total categories, recent notes, and category summaries.
 - Create, view, edit, delete, pin, prioritize, search, and filter notes.
@@ -24,6 +24,7 @@ Set these values in `.env.local`:
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+SUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
 ```
 
 Open `http://localhost:3000`.
@@ -50,6 +51,7 @@ It also enables RLS, creates user-owned CRUD policies, maintains `notes.updated_
 3. Add these production environment variables:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
 4. Deploy the production build.
 
 ## Tests and Checks

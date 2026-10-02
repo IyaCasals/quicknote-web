@@ -245,10 +245,10 @@ function AuthScreen({ message, onMessage }: { message: Message; onMessage: (mess
 
     try {
       const supabase = getSupabase();
-      const normalizedEmail = validateEmail(email);
       validatePassword(password, mode === "register" ? confirmPassword : undefined);
 
       if (mode === "register") {
+        const normalizedEmail = validateEmail(email);
         const cleanedUsername = requireText(username, "Username", 80);
         const { error } = await supabase.auth.signUp({
           email: normalizedEmail,
@@ -259,7 +259,25 @@ function AuthScreen({ message, onMessage }: { message: Message; onMessage: (mess
         onMessage({ text: "Account created. Check your email if confirmation is enabled, then log in.", tone: "success" });
         setMode("login");
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password });
+        const identifier = requireText(email, "Username or email");
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier, password })
+        });
+        const result = (await response.json()) as {
+          error?: string;
+          session?: { access_token: string; refresh_token: string };
+        };
+
+        if (!response.ok || !result.session) {
+          throw new Error(result.error || "Invalid username/email or password.");
+        }
+
+        const { error } = await supabase.auth.setSession({
+          access_token: result.session.access_token,
+          refresh_token: result.session.refresh_token
+        });
         if (error) throw error;
       }
     } catch (error) {
@@ -282,8 +300,12 @@ function AuthScreen({ message, onMessage }: { message: Message; onMessage: (mess
           </label>
         )}
         <label>
-          Email
-          <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+          {mode === "login" ? "Username or email" : "Email"}
+          <input
+            type={mode === "login" ? "text" : "email"}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
         </label>
         <label>
           Password
