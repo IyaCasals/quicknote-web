@@ -1,0 +1,19 @@
+{
+  "name": "QuickNote",
+  "short_name": "QuickNote",
+  "description": "Personal notes organization and management system.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff1f8",
+  "theme_color": "#e85d9f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
