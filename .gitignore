@@ -29,3 +29,7 @@ Thumbs.db
 QuickNote_Claude_Code_MD_Files.zip
 
 .vercel
+
+# Kivy / Buildozer
+kivy_app/.buildozer/
+kivy_app/bin/
