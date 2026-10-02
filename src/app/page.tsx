@@ -176,7 +176,15 @@ export default function QuickNotePage() {
       <section className="workspace">
         {message && <StatusMessage message={message} onClose={() => setMessage(null)} />}
         {activeView === "dashboard" && (
-          <DashboardView summary={summary} notes={notes.slice(0, 6)} onOpenNotes={() => setActiveView("notes")} />
+          <DashboardView
+            categories={categories}
+            summary={summary}
+            notes={notes.slice(0, 6)}
+            userId={session.user.id}
+            onMessage={setMessage}
+            onOpenNotes={() => setActiveView("notes")}
+            onRefresh={refreshData}
+          />
         )}
         {(activeView === "notes" || activeView === "pinned") && (
           <NotesView
@@ -306,14 +314,24 @@ function AuthScreen({ message, onMessage }: { message: Message; onMessage: (mess
 }
 
 function DashboardView({
+  categories,
   summary,
   notes,
+  userId,
+  onMessage,
+  onRefresh,
   onOpenNotes
 }: {
+  categories: Category[];
   summary: ReturnType<typeof buildReportSummary>;
   notes: Note[];
+  userId: string;
+  onMessage: (message: Message) => void;
+  onRefresh: () => Promise<void>;
   onOpenNotes: () => void;
 }) {
+  const [editing, setEditing] = useState<Note | null>(null);
+
   return (
     <div className="page-stack">
       <div className="page-heading">
@@ -331,7 +349,7 @@ function DashboardView({
           {notes.length === 0 ? (
             <p className="empty">No notes yet. Create your first note.</p>
           ) : (
-            notes.map((note) => <NoteListItem key={note.id} note={note} compact />)
+            notes.map((note) => <NoteListItem key={note.id} note={note} onOpen={() => setEditing(note)} />)
           )}
         </section>
         <section className="panel">
@@ -348,6 +366,16 @@ function DashboardView({
           )}
         </section>
       </div>
+      {editing && (
+        <NoteEditor
+          categories={categories}
+          note={editing}
+          userId={userId}
+          onClose={() => setEditing(null)}
+          onMessage={onMessage}
+          onRefresh={onRefresh}
+        />
+      )}
     </div>
   );
 }
