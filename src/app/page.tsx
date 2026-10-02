@@ -344,7 +344,7 @@ function DashboardView({
         <Metric label="Categories" value={summary.totalCategories} />
       </div>
       <div className="two-column">
-        <section className="panel">
+        <section className="panel recent-notes-panel">
           <h3>Recent Notes</h3>
           {notes.length === 0 ? (
             <p className="empty">No notes yet. Create your first note.</p>
