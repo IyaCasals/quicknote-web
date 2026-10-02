@@ -4,6 +4,7 @@ import { AuthError, type Session, type User } from "@supabase/supabase-js";
 import { BarChart3, Folder, Home, ListTodo, Pin, type LucideIcon } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
+import { getCategoryColor } from "@/lib/categoryColors";
 import { filterNotes } from "@/lib/filters";
 import { buildReportSummary } from "@/lib/reports";
 import { getSupabase, hasSupabaseConfig } from "@/lib/supabase";
@@ -654,9 +655,15 @@ function EditableCategory({
   onDelete: () => void;
 }) {
   const [name, setName] = useState(category.name);
+  const color = getCategoryColor(category.id);
 
   return (
     <div className="category-row">
+      <span
+        aria-hidden="true"
+        className="category-swatch"
+        style={{ backgroundColor: color.background, borderColor: color.border }}
+      />
       <input value={name} onChange={(event) => setName(event.target.value)} />
       <span>{count} notes</span>
       <button onClick={() => onRename(name)}>Rename</button>
@@ -699,6 +706,8 @@ function Metric({ label, value }: { label: string; value: number }) {
 }
 
 function NoteListItem({ note, onOpen }: { note: Note; compact?: boolean; onOpen?: () => void }) {
+  const categoryName = note.categories?.name ?? "Uncategorized";
+  const color = getCategoryColor(note.category_id ?? categoryName);
   const body = (
     <>
       <div>
@@ -706,9 +715,16 @@ function NoteListItem({ note, onOpen }: { note: Note; compact?: boolean; onOpen?
           {note.is_pinned && <span aria-label="Pinned note">Pinned - </span>}
           {note.title}
         </h3>
-        <small>
-          {note.categories?.name ?? "Uncategorized"} | {note.priority} | Updated {formatDate(note.updated_at)}
-        </small>
+        <div className="note-meta">
+          <span
+            className="category-badge"
+            style={{ backgroundColor: color.background, borderColor: color.border, color: color.text }}
+          >
+            {categoryName}
+          </span>
+          <span>{note.priority}</span>
+          <span>Updated {formatDate(note.updated_at)}</span>
+        </div>
       </div>
       {onOpen && <span className="open-note">Open</span>}
     </>

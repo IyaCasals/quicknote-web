@@ -260,7 +260,7 @@ p {
 
 .metric span,
 .empty,
-.note-card small {
+.note-meta {
   color: var(--muted);
 }
 
@@ -312,6 +312,24 @@ p {
 
 .note-card h3 {
   margin-bottom: 5px;
+}
+
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-weight: 700;
 }
 
 .note-row {
@@ -397,7 +415,15 @@ p {
 }
 
 .category-row {
-  grid-template-columns: minmax(0, 1fr) 90px auto auto;
+  grid-template-columns: 18px minmax(0, 1fr) 90px auto auto;
+}
+
+.category-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid;
+  border-radius: 999px;
+  justify-self: center;
 }
 
 @media (max-width: 780px) {
@@ -414,6 +440,14 @@ p {
   .form-grid,
   .category-row {
     grid-template-columns: 1fr;
+  }
+
+  .category-row {
+    align-items: stretch;
+  }
+
+  .category-swatch {
+    justify-self: start;
   }
 
   .topbar {
