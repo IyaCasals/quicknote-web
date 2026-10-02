@@ -136,6 +136,9 @@ export default function QuickNotePage() {
           <h1>QuickNote</h1>
           <p>{profile?.username ?? session.user.email}</p>
         </div>
+        <button className="mobile-logout" onClick={() => getSupabase().auth.signOut()}>
+          Logout
+        </button>
         <form
           className="top-search"
           onSubmit={(event) => {
