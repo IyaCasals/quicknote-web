@@ -1,8 +1,8 @@
 "use client";
 
 import { AuthError, type Session, type User } from "@supabase/supabase-js";
-import { BarChart3, Folder, Home, ListTodo, Pin, type LucideIcon } from "lucide-react";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { BarChart3, Folder, Home, ListTodo, Pin, PlusCircle, type LucideIcon } from "lucide-react";
+import { Fragment, FormEvent, useEffect, useMemo, useState } from "react";
 
 import { getCategoryColor } from "@/lib/categoryColors";
 import { filterNotes } from "@/lib/filters";
@@ -21,10 +21,10 @@ const emptyNoteInput: NoteInput = {
   is_pinned: false
 };
 
-const navItems: Array<{ key: ViewKey; label: string; Icon: LucideIcon }> = [
+const navItems: Array<{ key: ViewKey; label: string; Icon: LucideIcon; className?: string }> = [
   { key: "dashboard", label: "Dashboard", Icon: Home },
   { key: "notes", label: "All Notes", Icon: ListTodo },
-  { key: "pinned", label: "Pinned", Icon: Pin },
+  { key: "pinned", label: "Pinned", Icon: Pin, className: "desktop-nav-item" },
   { key: "categories", label: "Categories", Icon: Folder },
   { key: "reports", label: "Reports", Icon: BarChart3 }
 ];
@@ -35,6 +35,7 @@ export default function QuickNotePage() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeView, setActiveView] = useState<ViewKey>("dashboard");
+  const [creatingNote, setCreatingNote] = useState(false);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState<Priority | "All">("All");
@@ -162,11 +163,22 @@ export default function QuickNotePage() {
       </header>
 
       <aside className="sidebar">
-        {navItems.map(({ key, label, Icon }) => (
-          <button className={activeView === key ? "active" : ""} key={key} onClick={() => setActiveView(key)}>
-            <Icon aria-hidden="true" size={18} strokeWidth={2.2} />
-            <span>{label}</span>
-          </button>
+        {navItems.map(({ key, label, Icon, className }) => (
+          <Fragment key={key}>
+            <button
+              className={`${activeView === key ? "active" : ""} ${className ?? ""}`.trim()}
+              onClick={() => setActiveView(key)}
+            >
+              <Icon aria-hidden="true" size={18} strokeWidth={2.2} />
+              <span>{label}</span>
+            </button>
+            {key === "notes" && (
+              <button className="mobile-nav-item new-note-tab" onClick={() => setCreatingNote(true)}>
+                <PlusCircle aria-hidden="true" size={22} strokeWidth={2.3} />
+                <span>New Note</span>
+              </button>
+            )}
+          </Fragment>
         ))}
         <button className="logout" onClick={() => getSupabase().auth.signOut()}>
           Logout
@@ -212,6 +224,16 @@ export default function QuickNotePage() {
           />
         )}
         {activeView === "reports" && <ReportsView summary={summary} />}
+        {creatingNote && (
+          <NoteEditor
+            categories={categories}
+            note={null}
+            userId={session.user.id}
+            onClose={() => setCreatingNote(false)}
+            onMessage={setMessage}
+            onRefresh={refreshData}
+          />
+        )}
       </section>
     </main>
   );

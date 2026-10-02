@@ -200,6 +200,10 @@ p {
   display: none;
 }
 
+.mobile-nav-item {
+  display: none;
+}
+
 .sidebar {
   display: grid;
   align-content: start;
@@ -449,7 +453,7 @@ p {
 .modal {
   display: grid;
   width: min(760px, 100%);
-  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
   gap: 14px;
   overflow: auto;
   padding: 22px;
@@ -573,6 +577,14 @@ p {
     backdrop-filter: blur(16px) saturate(1.25);
   }
 
+  .desktop-nav-item {
+    display: none;
+  }
+
+  .mobile-nav-item {
+    display: grid;
+  }
+
   .sidebar button {
     display: grid;
     grid-template-rows: 22px auto;
@@ -587,6 +599,16 @@ p {
     text-align: center;
   }
 
+  .sidebar .new-note-tab {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .sidebar .new-note-tab svg {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.45));
+  }
+
   .sidebar button svg {
     justify-self: center;
   }
@@ -598,5 +620,31 @@ p {
   .workspace {
     grid-row: 2;
     padding: 16px;
+  }
+
+  .modal-backdrop {
+    align-items: stretch;
+    justify-items: stretch;
+    padding: 10px;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: calc(100dvh - 20px);
+    padding: 16px;
+  }
+
+  .modal textarea {
+    min-height: 32dvh;
+  }
+
+  .modal-actions {
+    position: sticky;
+    bottom: -16px;
+    margin: 2px -16px -16px;
+    border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.82);
+    padding: 12px 16px 16px;
+    backdrop-filter: blur(14px) saturate(1.2);
   }
 }
